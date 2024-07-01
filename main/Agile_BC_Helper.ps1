@@ -12,6 +12,7 @@ Function header {
     Write-Host "`t`t`t`t`t`t  Developed by an Attachee, you can also make it !."
     Write-Host "`t`t`t`t`t`t   AGILE BUSINESS SOLUTIONS LIMITED."
     Write-Host "`t`t`t`t`t`t   Author Daniel Gitonga.`n`n`n"
+    Write-Host "`t`t`t`t`t`t   Support/Contribute at : https://github.com/XIIcode/BC_Helper.git"
 }
 
 header
