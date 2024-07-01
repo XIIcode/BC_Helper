@@ -1,7 +1,8 @@
 ﻿# Importation of Nav Admin Module used to manage business central server.
-Set-ConsoleColor -ForegroundColor Green
-Import-Module  -Name "C:\Program Files\Microsoft Dynamics 365 Business Central\190\Service\navadmintool.ps1" -Verbose:$false | Out-Null
+$console = $host.ui.rawui
+$console.foregroundcolor = "green"
 
+Import-Module  -Name "C:\Program Files\Microsoft Dynamics 365 Business Central\190\Service\navadmintool.ps1" -Verbose:$false | Out-Null
 # Function used to Selective Summarized Basic Information.
 
 Function viewBasicInfo {
@@ -127,7 +128,7 @@ Function header {
             :=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-      
                :-==++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-:                                                                                          
 
-               
+
 ██████╗  ██████╗    ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ 
 ██╔══██╗██╔════╝    ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
 ██████╔╝██║         ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝
@@ -151,14 +152,14 @@ Function currentConfigurations {
     if ($choice -eq "1") {
         viewBasicInfo
         Read-Host
-        Set-ConsoleColor -Reset
+        $console.foregroundcolor = "white"
     }
     else {
         clear
         header
         getNavWebServerInstance
         Read-Host
-        Set-ConsoleColor -Reset
+        $console.foregroundcolor = "white"
     }
 }
 
@@ -176,7 +177,7 @@ Function setConfigurations {
     Write-Host "Rebooting Server Instance to implement changes...."
     Start-NAVServerInstance
     Read-Host
-    Set-ConsoleColor -Reset
+    $console.foregroundcolor = "white"
 }
 
 # In reference to option 3.
@@ -203,7 +204,7 @@ Function alProcedure {
     Write-Host "Step 8 : Save the File with ctrl + S`n`n"
     Write-Host "Finally : You are ready to go !!!!."
     Read-Host
-    Set-ConsoleColor -Reset
+    $console.foregroundcolor = "white"
 }
 
 Function Welcome {
