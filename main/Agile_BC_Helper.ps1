@@ -1,86 +1,9 @@
-﻿Import-Module -DisableNameChecking -Name "C:\Program Files\Microsoft Dynamics 365 Business Central\190\Service\navadmintool.ps1" 
+﻿# Importation of Nav Admin Module used to manage business central server.
+Set-ConsoleColor -ForegroundColor Green
+Import-Module  -Name "C:\Program Files\Microsoft Dynamics 365 Business Central\190\Service\navadmintool.ps1" -Verbose:$false | Out-Null
 
-Function header {
-    write-host " 
-██████╗  ██████╗    ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ 
-██╔══██╗██╔════╝    ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
-██████╔╝██║         ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝
-██╔══██╗██║         ██╔══██║██╔══╝  ██║     ██╔═══╝ ██╔══╝  ██╔══██╗
-██████╔╝╚██████╗    ██║  ██║███████╗███████╗██║     ███████╗██║  ██║
-╚═════╝  ╚═════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝                                                                          
-"
-    Write-Host "`t`t`t`t`t`t  Developed by an Attachee, you can also make it !."
-    Write-Host "`t`t`t`t`t`t   AGILE BUSINESS SOLUTIONS LIMITED."
-    Write-Host "`t`t`t`t`t`t   Author Daniel Gitonga.`n`n`n"
-    Write-Host "`t`t`t`t`t`t   Support/Contribute at : https://github.com/XIIcode/BC_Helper.git"
-}
+# Function used to Selective Summarized Basic Information.
 
-header
-
-Function Welcome {
-    Write-Host "1. View Current Configurations."
-    Write-Host "2. Set Configurations to optimal."
-    Write-Host "3. Check procedure to configure AL.`n"
-
-    $option = Read-Host "Enter a Number Value only"
-    
-    switch ($option) {
-        "1" {
-            clear
-            header
-            Write-Host "1.Basic Configurations"
-            Write-Host "2.Application Language (AL) IMPORTANT`n"
-            $choice = Read-Host "Enter a Number Value only"
-            if ($choice -eq "1") {
-                viewBasicInfo
-            }
-            ElseIf ($choice -eq "2") {
-                clear
-                header
-                getNavWebServerInstance
-            }
-        }
-        "2" {
-            clear
-            header
-            Write-Host "Setting optimal configurations ...."
-            Set-NAVServerConfiguration -ServerInstance BC190 -KeyName ExtensionAllowedTargetLevel -KeyValue OnPrem
-            Write-Host "Extension Target Level set to [OnPremise]"
-            Set-NAVServerConfiguration -ServerInstance BC190 -KeyName DeveloperServicesEnabled -KeyValue True
-            Write-Host "Developer Services [Enabled]"
-            Write-Host "Stopping Server Instance..."
-            Stop-NAVServerInstance
-            Write-Host "Rebooting Server Instance to implement changes...."
-            Start-NAVServerInstance 
-        }
-        "3" {
-            clear
-            header
-            Write-Host "********Environment SetUp********`n`n`n"
-            Write-Host "Procedure for Configuring AL involves the following steps....`n`n"
-            Write-Host "Step 1: Go to Extension pane in VS Code and install the following extensions : `n"
-            Write-Host "1. Al CodeActions"
-            Write-Host "2. Al Language extension for Microsoft Dynamic 365 Business Central"
-            Write-Host "3. Waldo's CRS AL Language Extension`n`n"
-            Write-Host "**********Project Setup**********`n`n`n"
-            Write-Host "Step 1 : Launch Command Pallet either click settings panel and select command pallete bar OR ctrl + shift + p `n"
-            Write-Host "Step 2 : Input [AL:GO] and select Enter.`n"
-            Write-Host "Step 3 : Choose the path you wish to save your project.`n"
-            Write-Host "Step 4 : Select the target platform for BC190 as [8.0 Business Central 2021 Release Wave 2]`n"
-            Write-Host "Step 5 : Select the Server as [your Own Server]`n"
-            Write-Host "Step 6 : Open the Explorer tab to view AL Project`n"
-            Write-Host "Step 7 : Click on [.vscode folder] and open the launch.json file and edit the configurations to reflect the following.`n"
-            Write-Host "i)  server : http://localhost:8080/BC190`n"
-            Write-Host "ii) serverInstance: BC190`n"
-            Write-Host "iii) authentication: Windows`n"
-            Write-Host "Step 8 : Save the File with ctrl + S`n`n"
-            Write-Host "Finally : You are ready to go !!!!."
-        }
-    }
-}
-
-
-welcome 
 Function viewBasicInfo {
     clear
     header
@@ -91,7 +14,9 @@ Function viewBasicInfo {
     getNavServerConfiguration
     getNavWebServerInstance
 }
+
 #NAV SERVER USERS
+# Function used for collecting information about users.
 
 Function getUsernames {
     Write-Host "`n`t`t`t`t`t Users available in the system include : `n "
@@ -110,6 +35,7 @@ Function getUsernames {
 }
 
 #NAV TENANT
+# Function used to get information about tenant Environment.
 
 Function getNavTenant {
     Write-Host "`n`t`t`t`t`t Tenant Data in the System includes `n "
@@ -126,6 +52,7 @@ Function getNavTenant {
 }
 
 #NAV SERVER INSTANCE
+# Function used to collect information about server Instances.
 
 Function getNavServerInstance {
     Write-Host "`n`t`t`t`t`t Nav Server Instance `n "
@@ -133,6 +60,7 @@ Function getNavServerInstance {
 }
 
 #NAV SERVER CONFIGURATION
+# Function used to collect information about Server Configuration details.
 
 Function getNavServerConfiguration {
     Write-Host "`n`t`t`t`t`t Nav Server Configuration Data in the System includes `n "
@@ -145,6 +73,7 @@ Function getNavServerConfiguration {
 
 
 #Nav WEB SERVER INSTANCE
+# Function used to collect information about Server Instances.
 
 Function getNavWebServerInstance {
     Write-Host "`n`t`t`t`t`t Web Server Instance `n"
@@ -155,6 +84,153 @@ Function getNavWebServerInstance {
     Write-Host "Server Instance    : "$WebServerInstance.ServerInstance
     Write-Host "Version            : "$WebServerInstance.Version
 }
+
+Function header {
+    write-host "
+            :=+--==-++-+++==++++==+-==-+--=---+-+===-++-===+=-=-=-=++++=-+==-::.              
+       =+=-+-=++-+-+++=-++++==+-==:+--=---+-+--=+===-++-=-===+++++-==-=--=-=+:.           
+       ++++-++++-+-+++=-++++==+-+-:+--=---+-+===-=-=+=====-++++-==+-=--==-==-=+:          
+       --++-+++--+-+++=-++++==+-+-:+--=---+-++-==-+=-=-++=-=++=--+-+--++-=--+==+=.        
+       ++++-+++==+:=++==++++=-+-+-:+--=---+-++-+-==-++=-+++=-+++++-+--++-===-+=-=+.       
+       =+++==++++=-=++++++++=-+-+--+--=---+-++-+-=+=-+++==+++===++-+--++-===+-=+==+.      
+       =-=+++-=+++++++++++++=-+-+--+--=---+-++-+-=+++==++=-=++=:-+-+--++-==--+=-+++-      
+       ++=-+++=-+++++++++++==++-+--+--=---+-++-+==+++++-=++=--=+++-+--++-===+-=++++=      
+       =+++==+++==+++++++=-++=-++--+--=---+-++..   .=+++=-===-=+=-=+--++-=--=++++++=      
+       +-=+++-=+++-=+++=-=+=-=+++--+--=---==-   .    -++++-:+++==+++--++-===+++++=-=      
+       =+=-==+=-++==++==++==+++++--+:=-====:   :=+-   -+++++=-=+++=-+-++-=++++++-=+=      
+       +-=+::++-++==++-+++-++++++--+=-====-   :==-=-   =++++--++=-=++-++-=+++===+++=      
+       -+=-==++-++==++-+++-+++++-=-+++=-=-   .======.  :++++++-:=++++-++-=++=-=++++=      
+       +==+--++:++==++-+++-+++==++-++++==:   =+-==-=-   =++++++=+++++-++-=+++++++++-      
+       -=+-==++:++=-++-+++-+++-+++-++++=-   .=+-=++:+   .=++++++++++=--+--+++++++=-=      
+       +=-+--++:++=-++-++=:=++:+++-++++=    -=+-=++-+:   -+++++++++++-=+==+++++=-=+=      
+       +++===++:++=-++-=+=-=++:+++-++++-   :==+-=++-+=   -++++++++++++++++++++==+++=      
+       ++++--++:++=-++-=++++++:+++-++++   .--=+-=++-++.  .==++++++++++++++++=-+++++=      
+       ++++++++-++=-++-=++++++:+++-+++.   =--=+-=++:++:   +===++++++++++++=-=++++++=      
+       +++++++=-=+--+=--+++++=:=++-++=   :=--=+--+=-=+-   -+=-=++++++++++==++++++++=      
+       ++++++++-++=---:-=+++++++++-++.  .==-+-=++++++++.  .++++++++++++=-++++++++++=      
+       +++++++++=:        :=++++++-+=   ===+-==-+++++++-   --=======---=+++++++++++=      
+       ++++++++=   -=++=:   =++++=-=.  :+--+=-=+:-=+++++   -=+===:     .+++++++++++=      
+       ++++++++.  =++++++-  :+++=-..   ++==++=++==++++++.  :+++-    -:  :++++++++++=      
+       ++++++++   +++++++=  :+=.  ...   -+++++++++++++++-   +=.   -++-  .++++++++++=      
+       ++++++++=   -=++=:   ==  :+++++-  -+++++++++++++++   :   :++++:  :++++++++++=      
+       +++++++++=:        :++-  =++++++. .+++++++++++++++:     =++++=   =++++++++++=      
+       ++++++++++++=.  .=+++++  .=++++:  -+++++++++++++++=   :++++++.  .+++++++++++=      
+       +++++++++++++-   ++++++=.   .   .=++++++++++++++- .   -+++++:   =+++++++++++=      
+       ++++++++++++++   -++++++++--:--=++++++++++++++-    .   ++++:   =++++++++++++=      
+       ++++++++++++++:   ++++++++++++++++++++++++++-.   :++   -++:   =+++++++++++++=      
+       +++++++++++++++   .+++++++++++++++++++++++-    :++++=   .   .=++++++++++++++=      
+       =++++++++++++++=   .+++++++++++++++++++=:    :+++++++=.   :=++++++++++++++++=      
+       -++++++++++++++++.   -++++++++++++++-:    .-++++++++++++++++++++++++++++++++=      
+        =++++++++++++++++-    :-======-::     .-=++++++++++++++++++++++++++++++++++=      
+         =+++++++++++++++++-.             .:-++++++++++++++++++++++++++++++++++++++=      
+          :+++++++++++++++++++=-:::::--==++++++++++++++++++++++++++++++++++++++++++=      
+            :=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-      
+               :-==++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-:                                                                                          
+
+               
+██████╗  ██████╗    ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ 
+██╔══██╗██╔════╝    ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
+██████╔╝██║         ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝
+██╔══██╗██║         ██╔══██║██╔══╝  ██║     ██╔═══╝ ██╔══╝  ██╔══██╗
+██████╔╝╚██████╗    ██║  ██║███████╗███████╗██║     ███████╗██║  ██║
+╚═════╝  ╚═════╝    ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝                                                                          
+"
+    Write-Host "`t`t`t`t`t`t  Developed by an Attachee, you can also make it !."
+    Write-Host "`t`t`t`t`t`t   AGILE BUSINESS SOLUTIONS LIMITED."
+    Write-Host "`t`t`t`t`t`t   Author Daniel Gitonga."
+    Write-Host "`t`t`t`t`t`t   Support/Contribute Project at : https://github.com/XIIcode/BC_Helper.git`n`n`n"
+}
+
+# In reference to Option 1.
+Function currentConfigurations {
+    clear
+    header
+    Write-Host "1.Basic Configurations"
+    Write-Host "2.Application Language (AL) IMPORTANT`n"
+    $choice = Read-Host "Enter a Number Value only"
+    if ($choice -eq "1") {
+        viewBasicInfo
+        Read-Host
+        Set-ConsoleColor -Reset
+    }
+    else {
+        clear
+        header
+        getNavWebServerInstance
+        Read-Host
+        Set-ConsoleColor -Reset
+    }
+}
+
+# In reference to option 2.
+Function setConfigurations {
+    clear
+    header
+    Write-Host "Setting optimal configurations ...."
+    Set-NAVServerConfiguration -ServerInstance BC190 -KeyName ExtensionAllowedTargetLevel -KeyValue OnPrem
+    Write-Host "Extension Target Level set to [OnPremise]"
+    Set-NAVServerConfiguration -ServerInstance BC190 -KeyName DeveloperServicesEnabled -KeyValue True
+    Write-Host "Developer Services [Enabled]"
+    Write-Host "Stopping Server Instance..."
+    Stop-NAVServerInstance
+    Write-Host "Rebooting Server Instance to implement changes...."
+    Start-NAVServerInstance
+    Read-Host
+    Set-ConsoleColor -Reset
+}
+
+# In reference to option 3.
+Function alProcedure {
+    clear
+    header
+    Write-Host "********Environment SetUp********`n`n`n"
+    Write-Host "Procedure for Configuring AL involves the following steps....`n`n"
+    Write-Host "Step 1: Go to Extension pane in VS Code and install the following extensions : `n"
+    Write-Host "1. Al CodeActions"
+    Write-Host "2. Al Language extension for Microsoft Dynamic 365 Business Central"
+    Write-Host "3. Waldo's CRS AL Language Extension`n`n"
+    Write-Host "**********Project Setup**********`n`n`n"
+    Write-Host "Step 1 : Launch Command Pallet either click settings panel and select command pallete bar OR ctrl + shift + p `n"
+    Write-Host "Step 2 : Input [AL:GO] and select Enter.`n"
+    Write-Host "Step 3 : Choose the path you wish to save your project.`n"
+    Write-Host "Step 4 : Select the target platform for BC190 as [8.0 Business Central 2021 Release Wave 2]`n"
+    Write-Host "Step 5 : Select the Server as [your Own Server]`n"
+    Write-Host "Step 6 : Open the Explorer tab to view AL Project`n"
+    Write-Host "Step 7 : Click on [.vscode folder] and open the launch.json file and edit the configurations to reflect the following.`n"
+    Write-Host "i)  server : http://localhost:8080/BC190`n"
+    Write-Host "ii) serverInstance: BC190`n"
+    Write-Host "iii) authentication: Windows`n"
+    Write-Host "Step 8 : Save the File with ctrl + S`n`n"
+    Write-Host "Finally : You are ready to go !!!!."
+    Read-Host
+    Set-ConsoleColor -Reset
+}
+
+Function Welcome {
+    Write-Host "1. View Current Configurations."
+    Write-Host "2. Set Configurations to optimal."
+    Write-Host "3. Check procedure to configure AL.`n"
+
+    $option = Read-Host "Enter a Number Value only"
+    
+    if ($option -eq "1") {
+        currentConfigurations
+    }
+
+    if ($option -eq "2") {
+        setConfigurations
+    }
+
+
+    if ($option -eq "3") {
+        alProcedure
+    }
+    
+}
+
+header
+
+welcome 
 
 
 
